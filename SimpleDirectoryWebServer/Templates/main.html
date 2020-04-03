@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File viewer</title>
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            height: 100%;
+        }
+        body {
+            background: #00787f;
+            height: 100%;
+            margin: 0;
+            font-family: Tahoma, sans-serif;
+            letter-spacing: 0.04em;
+            font-size: 13px;
+        }
+
+        .wrapper {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .window {
+            width: 640px;
+            height: 480px;
+            background: #bfb8bf;
+            display: flex;
+            flex-direction: column;
+            padding: 3px;
+            box-sizing: border-box;
+            border: 1px solid #ffffff;
+            border-right-color: #7f787f;
+            border-bottom-color: #7f787f;
+            box-shadow: 1px 1px 0 black, 1px 0px 0 black, 0 1px 0 black, -1px -1px 0 #dfd8df, 0 -1px 0 #dfd8df, -1px 0 0 #dfd8df;
+        }
+
+        .titlebar {
+            background: #00007f;
+            background-image: linear-gradient(to right, #000080, #1084d0);
+            color: white;
+            font-weight: bold;
+            padding: 2px 5px;
+            display: flex;
+            font-size: 12px;
+            height: 20px;
+        }
+        
+        .titlebar img {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
+        
+        .titlebar div {
+            width: calc(100% - 16px);
+        }
+
+        .actions {
+            display: flex;
+            height: 40px;
+            padding: 4px 0;
+            font-size: 10px;
+        }
+        
+        .action {
+            text-align: center;
+            width: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed transparent;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+        
+        .action a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .action:hover {
+            border-color: gray;
+        }
+        
+        .action:active {
+            background: #e4e4e4;
+        }
+        
+        .action img {
+            width: 15px;
+            height: 13px;
+            display: block;
+            margin-bottom: 4px;
+            margin-left: -3px;
+        }
+
+        .contents {
+            background: white;
+            height: 100%;
+            border: 1px solid black;
+            border-right-color: #dfd8df;
+            border-bottom-color: #dfd8df;
+            box-shadow: 1px 1px 0 #fff8ff, 1px 0px 0 #fff8ff, 0 1px 0 #fff8ff, -1px -1px 0 #7f787f, 0 -1px 0 #7f787f, -1px 0 0 #7f787f;
+            padding: 6px;
+            overflow: scroll;
+        }
+
+        .contents .listing {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            user-select: none;
+            flex-wrap: wrap;
+        }
+
+        .contents .listing li {
+            display: flex;
+            padding: 5px;
+            cursor: pointer;
+            border: 1px dashed transparent;
+            width: calc(100% / 5);
+            position: relative;
+        }
+        
+        .contents .listing li div {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+            width: calc(100% - 16px);
+            height: 16px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .contents .listing li a {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .contents .listing li:hover {
+            border-color: gray;
+        }
+
+        .contents .listing li:active {
+            background: #e4e4e4;
+        }
+
+        .contents .listing li img {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="window">
+        <div class="titlebar">
+            <img src="{{#IsRoot}}https://i.imgur.com/1SWhHNj.png{{/IsRoot}}{{^IsRoot}}https://i.imgur.com/OxMGDhq.png{{/IsRoot}}">
+            <div>{{Title}}</div>
+        </div>
+        {{#BackUrl}}
+        <div class="actions">
+            <div class="action">
+                <a href="{{BackUrl}}"></a>
+                <!--https://i.imgur.com/YhlMlA2.png-->
+                <img src="https://i.imgur.com/dvmr2yQ.png">
+                Back
+            </div>
+        </div>
+        {{/BackUrl}}
+        <div class="contents">
+            {{#WithListing}}
+            <ul class="listing">
+                {{#Directories}}
+                    <li>
+                        <img src="https://i.imgur.com/OxMGDhq.png">
+                        <a href="{{FullPath}}" title="{{BaseName}}"></a>
+                        <div>{{BaseName}}</div>
+                    </li>
+                {{/Directories}}
+                {{#Files}}
+                    <li>
+                        <img src="https://i.imgur.com/UyNAG8N.png">
+                        <a href="{{FullPath}}" title="{{BaseName}}"></a>
+                        <div>{{BaseName}}</div>
+                    </li>
+                {{/Files}}
+                <!--li>
+                    <img src="https://i.imgur.com/OxMGDhq.png"><div>Cool dir!</div>
+                </li-->
+            </ul>
+            {{/WithListing}}
+        </div>
+    </div>
+</div>
+</body>
+</html>
